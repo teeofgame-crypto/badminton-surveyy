@@ -1,2 +1,213 @@
 # badminton-surveyy
 nongnamfon website
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>แบบสำรวจแบดมินตัน</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5f5f5;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:15px;
+width:420px;
+text-align:center;
+box-shadow:0 0 15px rgba(0,0,0,0.1);
+position:relative;
+}
+
+.pink{
+background:#ffd6ec;
+}
+
+h2,h3{
+color:#ff4fa3;
+}
+
+input{
+margin-top:10px;
+padding:8px;
+width:80%;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+margin-top:20px;
+margin-right:20px;
+padding:10px 20px;
+border:none;
+background:#ff7bbf;
+color:white;
+font-size:16px;
+border-radius:8px;
+cursor:pointer;
+}
+
+#noBtn{
+position:absolute;
+}
+
+.heart{
+position:fixed;
+font-size:26px;
+animation:float 3s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-600px);opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="app">
+
+<h2>แบบสำรวจแบดมินตัน</h2>
+<p>จัดทำโดย</p>
+<b>นางสาว ชัญญากานต์ พ่วงศรี</b>
+
+<br><br>
+
+<button onclick="start()">เริ่มทำแบบสอบถาม</button>
+
+</div>
+
+<script>
+
+const questions = [
+
+"1. คุณชอบเล่นแบดมินตันไหม?",
+"2. คุณเล่นแบดมินตันบ่อยแค่ไหน?",
+"3. คุณชอบเล่นกับใคร?",
+"4. คุณชอบตีเดี่ยวหรือคู่?",
+"5. ทำไมคุณถึงชอบเล่นแบด?",
+"6. คุณเล่นแบดมินตันตอนว่างไหม?",
+"7. คุณอยากพัฒนาฝีมือไหม?",
+"8. คุณชอบดูการแข่งขันแบดไหม?",
+"9. ถ้ามีคนชวนไปตีแบดจะไปไหม?"
+
+]
+
+let current = 0
+let runStarted = false
+
+function start(){
+showQuestion()
+}
+
+function showQuestion(){
+
+let html = `<h3>${questions[current]}</h3>`
+
+html += `
+<div>
+<input type="text" placeholder="พิมพ์คำตอบได้เลย">
+</div>
+
+<button onclick="next()">ถัดไป</button>
+`
+
+document.getElementById("app").innerHTML = html
+}
+
+function next(){
+
+current++
+
+if(current < questions.length){
+showQuestion()
+}else{
+loveQuestion()
+}
+
+}
+
+function loveQuestion(){
+
+let app = document.getElementById("app")
+
+app.classList.add("pink")
+
+app.innerHTML = `
+<h2>10. pen fan gun mai 💗</h2>
+
+<button onclick="yes()">เป็นน</button>
+<button id="noBtn">มั่ยย</button>
+`
+
+let no = document.getElementById("noBtn")
+
+no.addEventListener("click",startRun)
+
+}
+
+function startRun(){
+
+if(runStarted) return
+runStarted = true
+
+let btn = document.getElementById("noBtn")
+
+setInterval(()=>{
+
+let x = Math.random()*320
+let y = Math.random()*220
+
+btn.style.left = x+"px"
+btn.style.top = y+"px"
+
+},400)
+
+}
+
+function yes(){
+
+document.getElementById("app").innerHTML =
+"<h2 style='color:#ff4fa3;'>yeah pen fan gun leaw ♥️😾</h2>"
+
+setInterval(createHeart,200)
+
+}
+
+function createHeart(){
+
+let heart = document.createElement("div")
+
+heart.classList.add("heart")
+
+const emojis = ["💗","🎀","💖","💞"]
+
+heart.innerText = emojis[Math.floor(Math.random()*emojis.length)]
+
+heart.style.left = Math.random()*100+"vw"
+
+heart.style.bottom = "-20px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},3000)
+
+}
+
+</script>
+
+</body>
+</html>
